@@ -1,7 +1,9 @@
 import Express from "express";
 const dotenv = require("dotenv");
+import diaryRouter from "./routes/diaries";
 
 dotenv.config();
+
 let app: Express.Application | undefined = undefined;
 
 app = Express();
@@ -16,9 +18,11 @@ app.get("/ping", (_req: Express.Request, res: Express.Response) => {
 });
 
 // Add 404 handler
-app.use((_req: Express.Request, _res: Express.Response) => {
-  _res.status(404).send("Not found");
+app.use((_req: Express.Request, res: Express.Response) => {
+  res.status(404).send("Not found");
 });
+
+app.use("/api/diaries", diaryRouter);
 
 // Start server (http.createServer can also be used)
 app.listen(port, () => {
